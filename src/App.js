@@ -2,25 +2,31 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import DailyWeather from './dailyWeather.js';
+import GetWeather from './getWeather.js';
 import Button from './button.js';
+import SearchBar from './Searchbar.js';
 
 class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            city: ''
+        }
+        
+        this.getCity = this.getCity.bind(this)
+    }
+    
+    getCity(city) {
+        this.setState({city: city})
+    }
+    
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div className="App"> 
+        <p>{this.state.city}</p>
         
-        {
-            data.map(function(obj) {
-                return <DailyWeather date={obj.date} temp={obj.temp} description={obj.description} /> 
-            })
-        }
+        <SearchBar sendCity={this.getCity}/>
+        <GetWeather city="Espoo" />
         
       </div>
     );
