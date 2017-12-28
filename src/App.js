@@ -10,7 +10,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            city: 'New York'
+            city: 'Espoo'
         }
         
         this.getCity = this.getCity.bind(this)
@@ -27,7 +27,6 @@ class App extends Component {
         
         <SearchBar sendCity={this.getCity}/>
         <GetWeather city={this.state.city} />
-        {console.log(this.state.city)}
         
       </div>
     );

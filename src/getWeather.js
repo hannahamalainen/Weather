@@ -9,26 +9,29 @@ class GetWeather extends Component {
         }
     };
     
-    componentWillMount() { // executed when the class is called for the first time
-            
-            fetch('https://api.openweathermap.org/data/2.5/forecast?q=' + this.props.city + '&units=metric&appid=430a8b136f38ac44ed0d1b4b9b467a29') // fetches the data of a certain city
-            .then(results => {
+    findData(city) {
+            let fetchedData = []
+            fetch('https://api.openweathermap.org/data/2.5/forecast?q=' + city + '&units=metric&appid=430a8b136f38ac44ed0d1b4b9b467a29') // fetches the data of a certain city
+            //.catch((error) => window.alert("Error"))
+            .then((results) => {
                 return results.json(); 
             })
-                
-            .then(data => {
+            .then((data) => {
                 data.list.map((day) => { //maps the data. day is a single weather measurement moment at 15:00
                     if(day.dt_txt.search("15:00") != -1){
                     const dayObject = {date: day.dt_txt, temp: day.main.temp, description: day.weather.description} //selects the desired data
-                    this.state.days.push(dayObject)} //pushes the mapped data to the state variable
+                    fetchedData.push(dayObject)} //pushes the mapped data to the state variable
                 })
+                 if(fetchedData.length === 5) {
+                    this.setState({days: fetchedData})
+                     console.log("moikkamoi")
+                 }
             })
-            
-            
-
-}
-
-
+        }
+    
+    componentWillReceiveProps(newProps) { // executed when the class is updated
+        this.findData(newProps.city);
+    }
     
  render() {
         return (
